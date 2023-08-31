@@ -44,6 +44,9 @@ fun DefaultPreview() {
     }
 }
 ```
+
+> Greeting("Android")는 Greeting이라는 Composable 함수를 호출하며, "Android"라는 문자열을 인자로 전달한다. 이 함수의 내부 구현에 따라 화면에 어떤 내용이 표시될지 결정된다.
+
 #### ui/theme/Theme/kt
 ```kotlin
 private val DarkColorPalette = darkColors(
@@ -134,3 +137,42 @@ fun GreetingPreview() {
     }
 }
 ```
+
+##  setContent / Theme / Surface
+1. setContent : Composable 함수를 사용하여 앱의 UI 내용을 설정하는데 사용된다. Android의 전통적인 setContentView() 메서드와 유사한 개념이지만, Jetpack Compose에서는 Composable 함수와 함께 사용된다.
+
+2. XXXTheme : Theme정보를 의미한다. 해당 프로젝트에서는 Theme.kt에 여러 테마에 필요한 정보를 정리하고, 앱의 UI 요소에 적용되는 스타일과 색상을 정의한다.
+
+3. Surface : UI 구성 요소를 포함하는 컨테이너 역할을 한다. 예를들어 Material Design에서는 요소가 어떤 "높이"에 있는지를 나타내기 위해 서피스를 사용한다. Surface는 그림자, 모서리 반올림, 배경색 등을 포함하여 이러한 "높이" 또는 Z축을 시각화한다.
+
+## Declarative UI — 선언형 UI
+1. 상태 기반: 선언적 UI는 주어진 상태를 기반으로 UI를 렌더링한다. 상태가 변경되면, UI도 자동으로 업데이트된다. 따라서 개발자는 UI를 어떻게 변경해야 하는지를 상세하게 지정하는 대신, 원하는 최종 상태만 선언하면 된다.
+
+2. 직관적: 선언적 코드는 읽기 쉽고 이해하기 쉽다. UI의 현재 상태와 모습을 직접적으로 나타내기 때문에 코드와 UI 사이의 관계가 직관적이다.
+
+3. 유지보수 용이: UI의 변경이나 확장이 필요할 때, 선언적 접근법은 수정이나 추가가 간편하다.
+
+4. 재사용성: UI 컴포넌트를 재사용하기 쉽게 만들 수 있어서, 다양한 UI 구성 요소를 쉽게 조합할 수 있다.
+
+5. 반응형: 선언적 UI는 자동으로 상태의 변화에 반응하여 UI를 업데이트한다.
+> UI의 **"무엇"** 을 명시하며, **"어떻게"** 그려야 하는지에 대한 복잡한 로직을 프레임워크나 라이브러리에 위임한다.
+
+## 레이아웃을 활용한 Compose function의 다중 호출
+지금까지는 하나의 컴포넌트만을 갖고 사용했지만, 여러개의 컴포넌트를 넣는것도 가능하다.
+```kotlin
+
+@Composable
+fun MyScreenContent() {
+    Column {
+        Greeting("Android")
+        Divider(color = Color.Black)
+        Greeting("there")
+    }
+}
+```
+Column과 위에서부터 사용하던 Greeting 함수를 사용하고, 라인을 그어주기 위한 Divider 를 추가한 결과물은 다음과 같다.
+
+![0_qBQkLkMUBcUUWmVk](https://github.com/KyungHwa0/TIL/assets/124041716/0113973f-6af5-4c7e-a7ec-8a394d2da2bb)
+
+* Column : 항목을 순서대로 배치하기 위해 사용한다.
+* Divider : 선 긋기 가능한 Compose 함수이다.
