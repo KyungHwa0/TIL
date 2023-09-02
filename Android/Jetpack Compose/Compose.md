@@ -176,3 +176,47 @@ Column과 위에서부터 사용하던 Greeting 함수를 사용하고, 라인�
 
 * Column : 항목을 순서대로 배치하기 위해 사용한다.
 * Divider : 선 긋기 가능한 Compose 함수이다.
+
+## ComposeView
+android.view.View 는 Jetpack Compose UI 콘텐츠를 사용할 수 있도록 해준다. setContent 를 사용하면 composable function content 를 뷰에 제공할 수 있다.
+
+Compose의 계층 구조는 아래와 같으며. ComposeView 를 통해 androidx.compose.materia 에 정의된 다양한 컴포넌트를 조합하여 Composable function 콘텐츠를 구성할 수 있다.
+
+```
+kotlin.Any
+ ↳ android.view.View
+   ↳ android.view.ViewGroup
+     ↳ androidx.compose.ui.platform.AbstractComposeView
+       ↳ androidx.compose.ui.platform.ComposeView
+```
+
+## Compose Compiler / Compose Runtime
+Compose Compiler 는 @Composable 이 설정된 경우 Composable function 으로 코드 변환과 코틀린 컴파일러 플러그인과 함께 최적화를 활성화한다.
+
+Compose Runtime은 Compose의 프로그래밍 모델과 상태 관리, 그리고 Compose 컴파일러를 지정하기 위한 코어 런타임에 대한 기본 설정을 수행한다.
+```kotlin
+@Composable
+fun Greeting(name: String) {
+    var greet by remember { mutableStateOf("Hello $name") }
+    Text(text = greet, color = Color.Red)
+}
+```
+위 코드에서 Compose Compiler에 의해 @Composeable 은 아래와 같이 변경된다.
+```kotlin
+fun Greeting(
+  $composer: Composer,
+  $static: Int,
+  name: String
+) {
+  $composer.start(123)
+  var greet by remember { mutableStateOf("Hello $name") }
+  Text(text = greet, color = Color.Red)
+  $composer.end()
+}
+```
+**Compose**는 composer.start 에서 고유의 키를 가지고 있고, 이는 Compose 의 state 가 변경될 때 해당 키를 가진 Compose 만 변경되도록 동작한다.
+
+**static** 은 상태(state)의 변경여부를 알 수 있는데 상태의 변화가 없는 경우, composer.start 와 composer.end 사이의 UI 의 변경을 하지 않는다.
+
+이때 데이터의 상태가 변경되어 UI 를 다시 구성하는 경우는 **Recomposition** 이라고 한다.
+
