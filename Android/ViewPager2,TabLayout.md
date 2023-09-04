@@ -50,6 +50,7 @@ class FirstFragment : Fragment() {
 ## FragmentStateAdapter를 상속받은 ViewPager2용 Adapter 생성
 createFragment( ) 메소드에서는 각 화면에 나타낼 fragment를 생성하여 반환하고, getItemCount( ) 메소드에서는 화면에 나타낼 페이지 수를 반환해 줍니다. 
 
+* ViewPager2.kt
 ```kotlin
 class ViewPager2 (
     fragmentManager: FragmentManager,
