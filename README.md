@@ -1,7 +1,6 @@
 # TIL(Today I Learned)
 
 ## Kotlin
-* [Kotlin In Action](https://github.com/KyungHwa0/TIL/blob/main/Kotlin/Kotlin_in_action.md)
 * [문법](https://github.com/KyungHwa0/TIL/blob/main/Kotlin/%EB%AC%B8%EB%B2%95.md)
 * [Algorithm](https://github.com/KyungHwa0/TIL/tree/main/Kotlin/Algorithm)
 
@@ -23,5 +22,5 @@
 * [StickyHeader](https://github.com/KyungHwa0/TIL/blob/main/Android/StickyHeader.md)
 
 ### [Jetpack](https://github.com/KyungHwa0/TIL/tree/main/Android/Jetpack)
-* [Compose](https://github.com/KyungHwa0/TIL/blob/main/Android/Jetpack%20Compose/Compose.md)
-* [Media3](https://github.com/KyungHwa0/TIL/blob/main/Android/Jetpack%20Compose/Media3.md)
+* [Compose](https://github.com/KyungHwa0/TIL/blob/main/Android/Jetpack/Compose.md)
+* [Media3](https://github.com/KyungHwa0/TIL/blob/main/Android/Jetpack/Media3.md)
