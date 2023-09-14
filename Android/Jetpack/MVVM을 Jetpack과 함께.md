@@ -12,3 +12,40 @@
 
 4. Room: Room은 SQLite의 추상화 레이어를 제공하는 Jetpack의 데이터베이스 라이브러리로, MVVM의 Model 부분에 해당하는 데이터베이스 작업을 쉽게 할 수 있도록 돕는다.
 
+### MVVM 구현 방법
+1. ViewModel 생성: ViewModel 클래스를 확장하여 UI 관련 데이터를 관리하게 한다.
+```kotlin
+class MyViewModel : ViewModel() {
+    val data: MutableLiveData<String> = MutableLiveData()
+}
+```
+2. LiveData 사용: 데이터 변경을 감지하고 UI를 업데이트 한다.
+```kotlin
+viewModel.data.observe(this, Observer { value ->
+    // UI 업데이트
+})
+```
+3. Data Binding 적용: XML 레이아웃에서 데이터를 직접 바인딩하게 한다.
+```kotlin
+<TextView
+    android:text="@{viewModel.data}"
+    ... />
+```
+4. Room과 연동: 데이터베이스 작업을 위해 Room 라이브러리를 사용한다.
+```kotlin
+@Entity
+data class User(
+    @PrimaryKey val id: Int,
+    val name: String
+)
+
+@Dao
+interface UserDao {
+    @Query("SELECT * FROM user")
+    fun getAllUsers(): LiveData<List<User>>
+}
+```
+
+> MVVM : https://wagzack.tistory.com/11
+
+
