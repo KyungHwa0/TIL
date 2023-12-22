@@ -22,7 +22,8 @@ UI 컨르롤러에서는 생명주기에 따라 앱이 활동중에 제거될 �
 ## ViewModel의 생명주기
 Activity의 생명주기와 상관없이 살아있다면 데이터가 쭉 유지되면 데이터의 손실을 방지할 수 있을 것이다. 그래서 ViewModel은 Activity의 생명주기 보다 긴 수명을 가지는 생명주기를 갖게 된다.
 ViewModel의 Scope(생명주기의 범위)는 ViewModel을 가져올 때 ViewModelProvider에 의해 결정 된다.  
-<그림>
+![viewModel생명주기](https://github.com/KyungHwa0/TIL/assets/124041716/affe0603-4419-4c7b-876e-1c06bc921a95)
+
 
 ### ViewModel은 언제 종료되는가??
 Activity가 더이상 사용하지 않는 상태가 되었을 때, onCleared() 를 호출하려 내부 데이터를 초기화하고 파괴한다.
