@@ -28,4 +28,102 @@ ViewModel의 Scope(생명주기의 범위)는 ViewModel을 가져올 때 ViewMod
 ### ViewModel은 언제 종료되는가??
 Activity가 더이상 사용하지 않는 상태가 되었을 때, onCleared() 를 호출하려 내부 데이터를 초기화하고 파괴한다.
 
+## ViewModel 프로세스
+[그림]
+```kotlin
+ViewModelProvider (ViewModelStoreOwner owner, ViewModelProvider.Factory factory)
+```
+- 첫번째 매개변수는 ViewModelStoreOwner인데 ViewModelStore의 정보를 가지고 온다.
+ViewModelStore는 ViewModel이 어떤 Activity와 연관이 있나를 알고 있는 얘로
+Activiy나 Fragment를 넣어주면 된다.
+- 두번째 매개변수는 ViewModelProvider.Factory로 실질적으로 ViewModel 인스턴스를 생성하는 역할을 하는 factory를 넣어 주면 된다. (여기서 알 수 있듯이 ViewModel은 팩토리패턴으로 구현된다!)
+
+## ViewModel 구현하기
+### 1. 클래스 정의
+- MyViewModel.kt
+```kotlin
+class MyViewModel : ViewModel(){
+    private val users: MutableLiveData<List<User>> by lazy {
+        MutableLiveData<List<User>>().also {
+            loadUsers()
+        }
+    }
+
+    fun getUsers(): LiveData<List<User>> {
+        return users
+    }
+
+    private fun loadUsers() {
+        // Do an asynchronous operation to fetch users.
+    }
+  }
+```
+### 2. ViewModel 객체 생성
+#### 1. Android Devlepers 에 나와있는 방법으로 커스텀은 불가능
+```kotlin
+class MyActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val myViewModel: MyViewModel by viewModels()
+    }
+}
+```
+
+#### 2. ViewModelProvider 사용
+gradle에 lifecycle에 대한 의존성을 추가해 주어야 사용할 수 있음
+
+```kotlin
+class MyActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val myViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
+    }
+}
+
+```
+
+#### 3. ViewModelProvider.NewInstanceFactory 사용
+안드로이드에서 제공해주는 팩토리 클래스. ViewModel에 파라미터가 없을 경우 사용하면 되고 의존성 주입은 필요 없음
+```kotlin
+class MyActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val myViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(MyViewModel::class.java)
+    }
+}
+```
+#### 4. ViewModelProvider.Factory 사용
+ViewModel에 파라미터가 있을 경우, 직접 Factory 클래스를 만들어서 사용하는 방법
+- ViewModelFactory.kt
+```kotlin
+class ViewModelFactory(private val param: String) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return if (modelClass.isAssignableFrom(MyViewModel::class.java)) {
+            MyViewModel(param) as T
+        } else {
+            throw IllegalArgumentException()
+        }
+    }
+}
+
+```
+- MainActivity.kt
+```kotlin
+class MyActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val myViewModel = ViewModelProvider(this, ViewModelFactory("wagzack"))
+            .get(MyViewModel::class.java)
+    }
+}
+
+```
+
 
