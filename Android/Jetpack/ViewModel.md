@@ -29,7 +29,7 @@ ViewModel의 Scope(생명주기의 범위)는 ViewModel을 가져올 때 ViewMod
 Activity가 더이상 사용하지 않는 상태가 되었을 때, onCleared() 를 호출하려 내부 데이터를 초기화하고 파괴한다.
 
 ## ViewModel 프로세스
-[그림]
+![ViewModel 프로세스](https://github.com/KyungHwa0/TIL/assets/124041716/3ce60eff-6a75-47df-b30e-321c462b2f5d)
 ```kotlin
 ViewModelProvider (ViewModelStoreOwner owner, ViewModelProvider.Factory factory)
 ```
